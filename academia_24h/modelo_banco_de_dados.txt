@@ -1,0 +1,41 @@
+CREATE DATABASE IF NOT EXISTS db_academia_24h;
+USE db_academia_24h;
+
+-- Tabela base do sistema para autenticação
+CREATE TABLE IF NOT EXISTS usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
+);
+
+-- Tabela 1: Planos de Acesso (Foco em controle financeiro e contratual)
+CREATE TABLE IF NOT EXISTS planos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo_plano VARCHAR(50) NOT NULL,
+    valor_mensal DECIMAL(10,2) NOT NULL,
+    carga_horaria_permitida VARCHAR(50) NOT NULL
+);
+
+-- Tabela 2: Equipamentos (Foco em patrimônio e manutenção interna)
+CREATE TABLE IF NOT EXISTS equipamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    descricao_aparelho VARCHAR(100) NOT NULL,
+    codigo_patrimonio VARCHAR(30) NOT NULL UNIQUE,
+    status_funcionamento VARCHAR(30) NOT NULL
+);
+
+-- Tabela 3: Serviços Profissionais (Foco em consultorias e atendimentos)
+CREATE TABLE IF NOT EXISTS servicos_profissionais (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_servico VARCHAR(100) NOT NULL,
+    duracao_minutos INT NOT NULL,
+    custo_adicional DECIMAL(10,2) NOT NULL
+);
+
+-- Carga inicial obrigatória para testes (admin / 123)
+INSERT INTO usuario (nome, telefone, email, login, senha) 
+VALUES ('Administrador', '49999999999', 'admin@academia.com', 'admin', '123')
+ON DUPLICATE KEY UPDATE id=id;
