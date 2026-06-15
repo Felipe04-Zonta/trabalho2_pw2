@@ -14,11 +14,11 @@ if(!empty($busca)) {
 }
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="fa-solid fa-users"></i> Administradores</h2>
-    <a href="UsuarioForm.php" class="btn btn-success btn-sm">Novo Utilizador</a>
+    <h2><i class="fa-solid fa-users"></i> Administradores do Sistema</h2>
+    <a href="UsuarioForm.php" class="btn btn-success btn-sm">Novo Administrador</a>
 </div>
 <form method="GET" class="row g-2 mb-4">
-    <div class="col-md-10"><input type="text" name="busca" class="form-control" placeholder="Buscar..." value="<?php echo htmlspecialchars($busca); ?>"></div>
+    <div class="col-md-10"><input type="text" name="busca" class="form-control" placeholder="Buscar administrador por nome..." value="<?php echo htmlspecialchars($busca); ?>"></div>
     <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Pesquisar</button></div>
 </form>
 <div class="table-responsive bg-white p-3 rounded shadow-sm">
@@ -31,10 +31,10 @@ if(!empty($busca)) {
                     <td><strong><?php echo $row['nome']; ?></strong></td>
                     <td><?php echo $row['telefone']; ?></td>
                     <td><?php echo $row['email']; ?></td>
-                    <td><?php echo $row['login']; ?></td>
+                    <td><span class="badge bg-secondary"><?php echo $row['login']; ?></span></td>
                     <td class="text-center">
                         <a href="UsuarioForm.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen"></i></a>
-                        <a href="UsuarioDelete.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Remover?')"><i class="fa-solid fa-trash"></i></a>
+                        <a href="UsuarioDelete.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Deseja revogar as credenciais deste administrador?')"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
             <?php endwhile; ?>

@@ -1,17 +1,28 @@
 <?php
+// Verifica se a sessão do PHP já foi iniciada na memória do servidor. Se não, inicia-a.
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Proteção da Área Administrativa contra acessos anónimos
+/**
+ * CONTROLO DE ACESSO E SEGURANÇA (Etapa 2 do PDF):
+ * Se a variável de sessão 'usuario_logado' não existir, significa que o utilizador não fez login.
+ * O sistema barra o carregamento do código imediatamente e redireciona-o para a tela de login.
+ */
 if (!isset($_SESSION['usuario_logado'])) {
     header("Location: /TRABALHO2_PW2/academia_24h/usuario/login.php");
-    exit;
-} elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'atleta') {
+    exit; // Interrompe o script para impedir que utilizadores não autorizados vejam o HTML abaixo
+} 
+/**
+ * Se o utilizador logado for um Atleta, ele não tem autorização para aceder ao menu de administração.
+ * O header interceta o acesso e chuta-o de volta para a sua área restrita.
+ */
+elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'atleta') {
     header("Location: /TRABALHO2_PW2/academia_24h/usuario/area_atleta.php");
     exit;
 }
 
+// Define uma constante de URL absoluta para evitar links partidos quando mudamos de subpastas
 if (!defined('BASE_URL')) {
     define('BASE_URL', '/TRABALHO2_PW2/academia_24h/');
 }
@@ -25,7 +36,7 @@ if (!defined('BASE_URL')) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
         .navbar-brand { font-weight: 800; }
     </style>
 </head>
@@ -51,9 +62,10 @@ if (!defined('BASE_URL')) {
                 <span class="navbar-text text-white">
                     Olá, <strong><?php echo htmlspecialchars($_SESSION['usuario_logado']); ?></strong>
                 </span>
-                <a href="<?php echo BASE_URL; ?>usuario/logout.php" class="btn btn-sm btn-outline-danger" onclick="return confirm('Terminar sessão?')">Sair</a>
+                <a href="<?php echo BASE_URL; ?>usuario/logout.php" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja terminar a sessão?')">Sair</a>
             </div>
         </div>
     </div>
 </nav>
+
 <div class="container pb-5">

@@ -26,12 +26,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: ServicoList.php"); exit;
 }
 ?>
-<div class="card shadow-sm max-width-600 mx-auto p-4">
+<div class="card shadow-sm max-width-600 mx-auto p-4 bg-white">
     <h4>Gerenciar Modalidade</h4>
     <form method="POST">
         <div class="mb-3"><label class="form-label">Nome da Modalidade *</label><input type="text" name="nome_servico" class="form-control" value="<?php echo htmlspecialchars($nome_servico); ?>" required></div>
-        <div class="mb-3"><label class="form-label">Categoria *</label><input type="text" name="categoria_esporte" class="form-control" value="<?php echo htmlspecialchars($categoria_esporte); ?>" required></div>
-        <div class="mb-3"><label class="form-label">Professor Responsável *</label><input type="text" name="professor_responsavel" class="form-control" value="<?php echo htmlspecialchars($professor_responsavel); ?>" required></div>
+        <div class="mb-3"><label class="form-label">Categoria Desportiva *</label><input type="text" name="categoria_esporte" class="form-control" value="<?php echo htmlspecialchars($categoria_esporte); ?>" required></div>
+        <div class="mb-3"><label class="form-label">Professor Técnico Responsável *</label><input type="text" name="professor_responsavel" class="form-control" value="<?php echo htmlspecialchars($professor_responsavel); ?>" required></div>
         <button type="submit" class="btn btn-success">Salvar</button>
         <a href="ServicoList.php" class="btn btn-secondary">Voltar</a>
     </form>

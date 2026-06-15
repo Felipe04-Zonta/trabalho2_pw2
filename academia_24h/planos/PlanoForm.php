@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: PlanoList.php"); exit;
 }
 ?>
-<div class="card shadow-sm max-width-600 mx-auto p-4">
+<div class="card shadow-sm max-width-600 mx-auto p-4 bg-white">
     <h4>Gerenciar Plano</h4>
     <form method="POST">
         <div class="mb-3"><label class="form-label">Nome do Plano *</label><input type="text" name="nome_plano" class="form-control" value="<?php echo htmlspecialchars($nome_plano); ?>" required></div>

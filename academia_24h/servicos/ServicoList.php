@@ -18,7 +18,7 @@ if(!empty($busca)) {
     <a href="ServicoForm.php" class="btn btn-success btn-sm">Nova Modalidade</a>
 </div>
 <form method="GET" class="row g-2 mb-4">
-    <div class="col-md-10"><input type="text" name="busca" class="form-control" placeholder="Buscar..." value="<?php echo htmlspecialchars($busca); ?>"></div>
+    <div class="col-md-10"><input type="text" name="busca" class="form-control" placeholder="Buscar modalidade..." value="<?php echo htmlspecialchars($busca); ?>"></div>
     <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Pesquisar</button></div>
 </form>
 <div class="table-responsive bg-white p-3 rounded shadow-sm">

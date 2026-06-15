@@ -1,4 +1,5 @@
 <?php 
+// include_once com __DIR__ garante que o PHP encontra o ficheiro a partir da localização física exata no disco
 include_once __DIR__ . '/header.php'; 
 ?>
 
@@ -15,7 +16,7 @@ include_once __DIR__ . '/header.php';
             <div class="card-body">
                 <i class="fa-solid fa-screwdriver-wrench fa-3x text-warning mb-3"></i>
                 <h5>Equipamentos</h5>
-                <a href="equipamentos/EquipamentosList.php" class="btn btn-primary btn-sm">Acessar</a>
+                <a href="equipamentos/EquipamentosList.php" class="btn btn-primary btn-sm">Acessar Módulo</a>
             </div>
         </div>
     </div>
@@ -24,7 +25,7 @@ include_once __DIR__ . '/header.php';
             <div class="card-body">
                 <i class="fa-solid fa-id-card-alt fa-3x text-success mb-3"></i>
                 <h5>Planos & Bolsas</h5>
-                <a href="planos/PlanoList.php" class="btn btn-primary btn-sm">Acessar</a>
+                <a href="planos/PlanoList.php" class="btn btn-primary btn-sm">Acessar Módulo</a>
             </div>
         </div>
     </div>
@@ -33,10 +34,13 @@ include_once __DIR__ . '/header.php';
             <div class="card-body">
                 <i class="fa-solid fa-person-running fa-3x text-danger mb-3"></i>
                 <h5>Modalidades</h5>
-                <a href="servicos/ServicoList.php" class="btn btn-primary btn-sm">Acessar</a>
+                <a href="servicos/ServicoList.php" class="btn btn-primary btn-sm">Acessar Módulo</a>
             </div>
         </div>
     </div>
 </div>
 
-<?php include_once __DIR__ . '/footer.php'; ?>
+<?php 
+// Inclui o rodapé unificado fechando a estrutura HTML da página
+include_once __DIR__ . '/footer.php'; 
+?>
