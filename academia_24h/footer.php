@@ -1,6 +1,6 @@
-</div> <footer class="bg-dark text-white text-center py-3 mt-auto">
+</div> <footer class="bg-white text-muted text-center py-4 border-top mt-5">
     <div class="container">
-        <small>&copy; 2026 AtletaPro - Academia de Desenvolvimento de Esportes. IFSC Campus Chapecó.</small>
+        <small class="fw-medium">&copy; 2026 AtletaPro - Desenvolvimento de Talentos Desportivos. IFSC Campus Chapecó.</small>
     </div>
 </footer>
 

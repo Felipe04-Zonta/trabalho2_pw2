@@ -1,71 +1,122 @@
 <?php
-// Verifica se a sessão do PHP já foi iniciada na memória do servidor. Se não, inicia-a.
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-/**
- * CONTROLO DE ACESSO E SEGURANÇA (Etapa 2 do PDF):
- * Se a variável de sessão 'usuario_logado' não existir, significa que o utilizador não fez login.
- * O sistema barra o carregamento do código imediatamente e redireciona-o para a tela de login.
- */
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/trabalho2_pw2/academia_24h/');
+}
+
+// Proteção absoluta de rotas administrativas
 if (!isset($_SESSION['usuario_logado'])) {
-    header("Location: /TRABALHO2_PW2/academia_24h/usuario/login.php");
-    exit; // Interrompe o script para impedir que utilizadores não autorizados vejam o HTML abaixo
-} 
-/**
- * Se o utilizador logado for um Atleta, ele não tem autorização para aceder ao menu de administração.
- * O header interceta o acesso e chuta-o de volta para a sua área restrita.
- */
-elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'atleta') {
-    header("Location: /TRABALHO2_PW2/academia_24h/usuario/area_atleta.php");
+    header("Location: " . BASE_URL . "index.php");
+    exit; 
+} elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'atleta') {
+    header("Location: " . BASE_URL . "usuario/area_atleta.php");
     exit;
 }
 
-// Define uma constante de URL absoluta para evitar links partidos quando mudamos de subpastas
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/TRABALHO2_PW2/academia_24h/');
-}
+// Mapeamento dinâmico de navegação ativa
+$diretorio_atual = dirname($_SERVER['PHP_SELF']);
+$pagina_atual = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtletaPro - Academia de Talentos</title>
+    <title>AtletaPro - Área Administrativa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
-        .navbar-brand { font-weight: 800; }
+        :root {
+            --bg-slate: #1e293b;
+            --accent-orange: #ff4500;
+        }
+        body { 
+            background-color: #f8fafc; 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+        }
+        .navbar-premium {
+            background-color: var(--bg-slate) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            padding: 0.7rem 0;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: #94a3b8;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin: 0 0.15rem;
+        }
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        /* Elemento Indicador de Página Ativa */
+        .navbar-dark .navbar-nav .nav-link.active-item {
+            color: #ffffff !important;
+            background-color: var(--accent-orange);
+            box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
+        }
+        .card-modern {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            background: #ffffff;
+        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-premium mb-4 sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="<?php echo BASE_URL; ?>index.php">
-            <i class="fa-solid fa-medal text-warning me-2"></i>Atleta<span style="color: #ff4500;">Pro</span>
+        <a class="navbar-brand fw-bold fs-4" href="<?php echo BASE_URL; ?>dashboard.php">
+            <i class="fa-solid fa-circle-nodes text-warning me-2"></i>Atleta<span style="color: var(--accent-orange);">Pro</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="<?php echo BASE_URL; ?>index.php"><i class="fa-solid fa-house"></i> Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo BASE_URL; ?>equipamentos/EquipamentosList.php">Equipamentos</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo BASE_URL; ?>planos/PlanoList.php">Planos</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo BASE_URL; ?>servicos/ServicoList.php">Modalidades</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo BASE_URL; ?>usuario/UsuarioList.php">Administradores</a></li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($pagina_atual == 'dashboard.php') ? 'active-item' : ''; ?>" href="<?php echo BASE_URL; ?>dashboard.php">
+                        <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (strpos($diretorio_atual, 'equipamentos') !== false) ? 'active-item' : ''; ?>" href="<?php echo BASE_URL; ?>equipamentos/EquipamentosList.php">
+                        <i class="fa-solid fa-dumbbell me-1"></i> Equipamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (strpos($diretorio_atual, 'planos') !== false) ? 'active-item' : ''; ?>" href="<?php echo BASE_URL; ?>planos/PlanoList.php">
+                        <i class="fa-solid fa-id-card me-1"></i> Planos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (strpos($diretorio_atual, 'servicos') !== false) ? 'active-item' : ''; ?>" href="<?php echo BASE_URL; ?>servicos/ServicoList.php">
+                        <i class="fa-solid fa-person-running me-1"></i> Modalidades
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (strpos($diretorio_atual, 'usuario') !== false && $pagina_atual != 'area_atleta.php') ? 'active-item' : ''; ?>" href="<?php echo BASE_URL; ?>usuario/UsuarioList.php">
+                        <i class="fa-solid fa-users-gear me-1"></i> Integrantes
+                    </a>
+                </li>
             </ul>
             <div class="d-flex align-items-center gap-3">
-                <span class="navbar-text text-white">
-                    Olá, <strong><?php echo htmlspecialchars($_SESSION['usuario_logado']); ?></strong>
-                </span>
-                <a href="<?php echo BASE_URL; ?>usuario/logout.php" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja terminar a sessão?')">Sair</a>
+                <div class="text-end d-none d-sm-block">
+                    <small class="text-muted d-block" style="font-size: 0.72rem;">Operador Ativo</small>
+                    <span class="text-white fw-semibold small"><?php echo htmlspecialchars($_SESSION['usuario_logado']); ?></span>
+                </div>
+                <a href="<?php echo BASE_URL; ?>usuario/logout.php" class="btn btn-sm btn-outline-danger rounded-3 border-0 bg-opacity-10 bg-danger text-danger fw-medium" onclick="return confirm('Deseja encerrar a sessão atual?')">
+                    <i class="fa-solid fa-power-off"></i>
+                </a>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container pb-5">
+<div class="container">
